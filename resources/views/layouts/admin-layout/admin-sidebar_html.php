@@ -3,7 +3,8 @@
 	<a href="#" class="brand"><i class='bx bxs-smile icon'></i> AdminSite</a>
 	<ul class="side-menu">
 		<li><a href="admin.php" class="active"><i class='bx bxs-dashboard icon'></i> Dashboard</a></li>
-		<li class="divider" data-text="main">Gestion Blog</li>
+		<li class="divider" data-text="Gestion .
+		blog">Gestion Blog</li>
 		<li>
 			<a href="#"><i class='bx bxs-inbox icon'></i> Articles <i class='bx bx-chevron-right icon-right'></i></a>
 			<ul class="side-dropdown">

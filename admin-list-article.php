@@ -10,6 +10,11 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== Role::ADMIN->value) {
     exit();
 }
 
+$query = "SELECT * FROM articles";
+$stmt = $pdo->prepare($query);
+$stmt->execute();
+$articles = $stmt->fetchAll();
+
 $pageTitle = "Liste des articles";
 ob_start();
 require_once 'resources/views/admin/articles/admin-list-article_html.php';
