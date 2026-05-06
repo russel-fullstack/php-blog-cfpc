@@ -4,20 +4,33 @@ session_start();
 require_once 'database/database.php';
 require_once 'flash.php';
 require_once 'app/enums/role.php';
+require_once 'app/helpers.php';
 
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== Role::ADMIN->value) {
+if ($_SESSION['role'] !== Role::ADMIN->value) 
+  {
     header('Location: index.php');
     exit();
 }
+$searchTerm = '';
+if (isset($_POST['search'])) {
+    $searchTerm = clean_input((string) ($_POST['search'] ?? ''));
+}
 
-$query = "SELECT * FROM articles";
-$stmt = $pdo->prepare($query);
-$stmt->execute();
-$articles = $stmt->fetchAll();
+$query = 'SELECT * FROM articles';
 
-$pageTitle = "Liste des articles";
+if (!empty($searchTerm)) {
+    $query .= ' WHERE title LIKE :searchTerm OR introduction LIKE :searchTerm';
+}
+$query .= ' ORDER BY created_at DESC';
+$resultats = $pdo->prepare($query);
+if(!empty($searchTerm)) {
+    $resultats->bindValue(':searchTerm', '%' . $searchTerm . '%');
+}
+$resultats->execute();
+$articles = $resultats->fetchAll();
+
+$pageTitle = 'List Articles';
 ob_start();
 require_once 'resources/views/admin/articles/admin-list-article_html.php';
-
-$pageContent = ob_get_clean(); // Récupérer le contenu du tampon de sortie et le stocker dans la variable $pageContent
-require_once 'resources/views/layouts/admin-layout/admin-layout_html.php'; //Inclure le layout du blog qui affichera le header, le contenu et le footer
+$pageContent = ob_get_clean();
+require_once 'resources/views/layouts/admin-layout/admin-layout_html.php';
