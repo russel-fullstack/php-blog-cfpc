@@ -6,7 +6,7 @@ require_once 'flash.php';
 require_once 'app/enums/role.php';
 require_once 'app/helpers.php';
 
-if ($_SESSION['role'] !== Role::ADMIN->value) 
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== Role::ADMIN->value) 
   {
     header('Location: index.php');
     exit();
@@ -19,12 +19,13 @@ if (isset($_POST['search'])) {
 $query = 'SELECT * FROM articles';
 
 if (!empty($searchTerm)) {
-    $query .= ' WHERE title LIKE :searchTerm OR introduction LIKE :searchTerm';
+    $query .= ' WHERE title LIKE ? OR introduction LIKE ?';
 }
 $query .= ' ORDER BY created_at DESC';
 $resultats = $pdo->prepare($query);
 if(!empty($searchTerm)) {
-    $resultats->bindValue(':searchTerm', '%' . $searchTerm . '%');
+    $resultats->bindValue(1, '%' . $searchTerm . '%');
+    $resultats->bindValue(2, '%' . $searchTerm . '%');
 }
 $resultats->execute();
 $articles = $resultats->fetchAll();

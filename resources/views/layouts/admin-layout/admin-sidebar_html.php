@@ -9,7 +9,7 @@
 			<a href="#"><i class='bx bxs-inbox icon'></i> Articles <i class='bx bx-chevron-right icon-right'></i></a>
 			<ul class="side-dropdown">
 				<li><a href="admin-list-article.php">Liste des articles</a></li>
-				<li><a href="#">Ajouter un article</a></li>
+				<li><a href="admin-add-article.php">Ajouter un article</a></li>
 				
 			</ul>
 		</li>
