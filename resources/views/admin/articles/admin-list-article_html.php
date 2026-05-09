@@ -1,4 +1,63 @@
+<style>
+    /* Style pour le formulaire de recherche */
+    form {
+        display: flex;
+        /* Utilisation de flexbox pour aligner les éléments */
+        justify-content: center;
+        /* Centrer le formulaire */
+        margin: 20px 0;
+        /* Espacement vertical */
+    }
 
+    input[type="text"] {
+        padding: 10px;
+        /* Espacement interne */
+        font-size: 16px;
+        /* Taille de police */
+        border: 1px solid #ccc;
+        /* Bordure grise */
+        border-radius: 4px;
+        /* Coins arrondis */
+        width: 300px;
+        /* Largeur du champ de recherche */
+        transition: border-color 0.3s;
+        /* Transition pour l'effet au focus */
+    }
+
+    input[type="text"]:focus {
+        border-color: #007bff;
+        /* Couleur de la bordure au focus */
+        outline: none;
+        /* Suppression de l'outline par défaut */
+    }
+
+    button,
+    .button {
+        padding: 10px 15px;
+        /* Espacement interne */
+        font-size: 16px;
+        /* Taille de police */
+        border: none;
+        /* Pas de bordure */
+        border-radius: 4px;
+        /* Coins arrondis */
+        background-color: #a117f1;
+        /* Couleur de fond */
+        color: white;
+        /* Couleur du texte */
+        cursor: pointer;
+        /* Curseur de main au survol */
+        margin-left: 10px;
+        /* Espacement entre le champ et le bouton */
+        transition: background-color 0.3s;
+        /* Transition pour l'effet au survol */
+    }
+
+    button:hover {
+        background-color: #a117f1;
+        /* Couleur de fond au survol */
+    }
+</style>
 
 <h1>Nos articles</h1>
 <p>Il y a <?= count($articles); ?> articles</p>
@@ -6,11 +65,9 @@
 <!-- Affichage des erreurs et succès -->
 <?php
 
-if (! empty($errors)) { ?>
+if (! empty($success)) { ?>
     <div class="alert alert-danger">
-        <?php foreach ($errors as $error) { ?>
-            <p><?= $error ?></p>
-        <?php } ?>
+            <p><?= $success ?></p>
     </div>
 <?php } ?>
 

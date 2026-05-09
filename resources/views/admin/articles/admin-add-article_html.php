@@ -11,18 +11,18 @@
     <form class="form" id="form" method="post" enctype="multipart/form-data" action="admin-add-article.php">
         <div class="form-control">
             <label for="title">Title:</label>
-            <input type="text" name="title" id="title" value="">
+            <input type="text" name="title" id="title" value="<?= $_POST['title'] ?? '' ?>">
         </div>
-        <input type="hidden" name="slug" id="slug" value="">
+        <input type="hidden" name="slug" id="slug" value="<?= $_POST['slug'] ?? '' ?>">
 
         <div class="form-control">
             <label for="introduction">Introduction:</label>
-            <textarea name="introduction" id="introduction"></textarea>
+            <textarea name="introduction" id="introduction"><?= $_POST['introduction'] ?? '' ?></textarea>
         </div>
 
         <div class="form-control">
             <label for="content">Content:</label>
-            <textarea name="content" id="content"></textarea>
+            <textarea name="content" id="content" class="ckeditor"><?= $_POST['content'] ?? '' ?></textarea>
         </div>
 
         <div class="form-control">
