@@ -30,6 +30,8 @@ if(!empty($searchTerm)) {
 $resultats->execute();
 $articles = $resultats->fetchAll();
 
+$flash = flash_get();
+
 $pageTitle = 'List Articles';
 ob_start();
 require_once 'resources/views/admin/articles/admin-list-article_html.php';

@@ -62,20 +62,13 @@
 <h1>Nos articles</h1>
 <p>Il y a <?= count($articles); ?> articles</p>
 
-<!-- Affichage des erreurs et succès -->
-<?php
-
-if (! empty($success)) { ?>
-    <div class="alert alert-danger">
-            <p><?= $success ?></p>
+<!-- Affichage des messages flash -->
+<?php if ($flash): ?>
+    <div class="alert alert-<?= $flash['type'] === 'success' ? 'success' : 'danger' ?>">
+        <p><?= htmlspecialchars($flash['message']) ?></p>
     </div>
-<?php } ?>
+<?php endif; ?>
 
-<?php if (isset($success['update'])) { ?>
-    <div class="alert alert-success">
-        <p><?= $success['update'] ?></p>
-    </div>
-<?php } ?>
 <form method="POST" action="">
     <input type="text" name="search" placeholder="Rechercher un article..." value="<?= htmlspecialchars($searchTerm) ?>">
     <button type="submit">Rechercher</button>

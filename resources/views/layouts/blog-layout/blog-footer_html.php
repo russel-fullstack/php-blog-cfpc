@@ -25,7 +25,7 @@
                 <a href="#" class="footer-link">
                     <i class='bx bx-info-circle'></i>A propos
                 </a>
-                <a href="admin-dashboard.php" class="footer-link">
+                <a href="admin.php" class="footer-link">
                     <i class='bx bx-user-check'></i>Admin
                 </a>
             </div>

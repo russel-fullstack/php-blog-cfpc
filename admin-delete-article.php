@@ -15,6 +15,6 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== Role::ADMIN->value) {
 
 $query = $pdo->prepare('DELETE FROM articles WHERE id = :id');
 $query->execute([':id' => $_GET['id']]);
-
+flash_set('success', 'Article supprimé avec succès !');
 header('Location: admin-list-article.php');
 exit(); 
