@@ -46,9 +46,8 @@ if (isset($_POST['add-article'])) {
 
     if (empty($title) || empty($introduction) || empty($content)) {
         $error = 'Tous les champs sont requis.';
-    }
-
-    $query = $pdo->prepare('SELECT * FROM articles WHERE slug = :slug');
+    }else {
+        $query = $pdo->prepare('SELECT * FROM articles WHERE slug = :slug');
     $query->execute(['slug' => $slug]);
     $count = $query->fetchColumn();
     if ($count > 0) {
@@ -56,17 +55,18 @@ if (isset($_POST['add-article'])) {
     } else {
         $query = $pdo->prepare('INSERT INTO articles (title, slug, introduction, content, image, created_at) VALUES (:title, :slug, :introduction, :content, :image, NOW())');
         $query->execute([
-            ':title' => $title,
-            ':slug' => $slug,
-            ':introduction' => $introduction,
-            ':content' => $content,
-            ':image' => $imagePath
+            'title' => $title,
+            'slug' => $slug,
+            'introduction' => $introduction,
+            'content' => $content,
+            'image' => $imagePath
         ]);
         if($query->rowCount() > 0) {
         flash_set('success','Article ajouté avec succès !');
         header('Location: admin-list-article.php');
         exit();
         }
+    }
     }
 
 }
