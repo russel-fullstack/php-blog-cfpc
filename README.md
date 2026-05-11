@@ -30,7 +30,7 @@ Un moteur de blog robuste et léger construit en PHP natif (Vanilla PHP), conçu
 
 1. **Cloner le dépôt :**
    ```bash
-   git clone https://github.com/russel-fullstack/blog-php-cfpc.git
+   git clone https://github.com/russel-fullstack/php-blog-cfpc.git
    ```
 
 2. **Configuration de la Base de Données :**
