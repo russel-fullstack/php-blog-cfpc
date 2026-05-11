@@ -5,12 +5,13 @@
 		<li><a href="admin.php" class="active"><i class='bx bxs-dashboard icon'></i> Dashboard</a></li>
 		<li class="divider" data-text="Gestion .
 		blog">Gestion Blog</li>
+		<li><a href="/"><i class='bx bxs-home icon'></i> Accueil Blog</a></li>
 		<li>
 			<a href="#"><i class='bx bxs-inbox icon'></i> Articles <i class='bx bx-chevron-right icon-right'></i></a>
 			<ul class="side-dropdown">
 				<li><a href="admin-list-article.php">Liste des articles</a></li>
 				<li><a href="admin-add-article.php">Ajouter un article</a></li>
-				
+
 			</ul>
 		</li>
 		<li><a href="#"><i class='bx bxs-chart icon'></i> Charts</a></li>

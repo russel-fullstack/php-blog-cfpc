@@ -52,7 +52,7 @@
                     </a>
                 <?php else: ?>
                     <a href="user-article-show.php?id=<?= urlencode((string)$article['id']); ?>">
-                        <img src="/resources/images/default-article.jpg" alt="Image par défaut" class="article-image">
+                        <img src="resources/images/default-article.jpg" alt="Image par défaut" class="article-image">
                     </a>
                 <?php endif; ?>
 
