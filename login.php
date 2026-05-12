@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
         if ($_SESSION['role'] === 'admin') {
             header("Location: admin.php");
         } else {
-            header("Location: index.php");
+            header("Location: user.php");
         }
         exit();
     } else {
