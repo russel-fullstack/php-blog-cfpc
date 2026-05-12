@@ -342,7 +342,7 @@
                     if (isset($_SESSION['auth']) && $_SESSION['id'] === $commentaire['user_id'] || $isAdmin) {
                     ?>
                         <a
-                            href="#user-comment-delete.php"
+                            href="user-comment-delete.php?id=<?= $commentaire['id'] ?>&article_id=<?= $article_id ?>"
                             class="delete-comment-link"
                             onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?')">
                             Supprimer
