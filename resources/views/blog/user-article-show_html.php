@@ -315,16 +315,19 @@
         <?php } ?>
 
         <div class="article-body"><?= $article['content'] ?></div>
-        <em>Posté le....votre date</em><br>
+        <em>Posté le <?= $article['created_at'] ?></em><br>
 
+        <?php if(count($commentaires) === 0) { ?>
        
             <h2 class="comment-heading">
                 Il n'y a pas encore de commentaires pour cet article... <strong>SOYEZ LE PREMIER ! :D</strong>
             </h2>
-     
-            <h2 class="comment-heading">
-                Il y a déjà ...réaction...
+        <?php } else { ?>
+             <h2 class="comment-heading">
+                Il y a déjà <?= count($commentaires) ?> commentaire<?= count($commentaires) > 1 ? 's' : '' ?> pour cet article... <strong>REJOIGNEZ LA DISCUSSION !</strong>
             </h2>
+        <?php } ?>
+            
 
          
                 <div class="comment">

@@ -14,6 +14,11 @@ $query = $pdo->prepare($sql);
 $query->execute(compact('article_id'));
 $article = $query->fetch();
 
+$sql = 'SELECT * FROM comments WHERE article_id= :article_id';
+$query = $pdo->prepare($sql);
+$query->execute(compact('article_id'));
+$commentaires = $query->fetchAll();
+
 $usercount = $pdo->query('SELECT COUNT(*) AS count FROM users')->fetch(PDO::FETCH_ASSOC)['count'];
 $articlecount = $pdo->query('SELECT COUNT(*) AS count FROM articles')->fetch(PDO::FETCH_ASSOC)['count'];
 
