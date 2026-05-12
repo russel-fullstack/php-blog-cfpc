@@ -28,7 +28,7 @@ if (! $comment) {
     exit('Commentaire introuvable.');
 }
 
-$isAdmin = isset($_SESSION['auth']['role']) && $_SESSION['auth']['role'] === Role::ADMIN->value;
+$isAdmin = isset($_SESSION['role']) && $_SESSION['role'] === Role::ADMIN->value;
 if ($comment['user_id'] !== $user_id && !$isAdmin) {
     exit('Vous ne pouvez pas supprimer ce commentaire.');
 }
