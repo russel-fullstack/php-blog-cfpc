@@ -10,8 +10,7 @@ require_once 'app/helpers.php';
 
 // Vérifier si l'utilisateur est connecté
 if (! isset($_SESSION['id'])) {
-    header('Location: login.php');
-    exit;
+    redirect('login.php');
 }
 
 $user_auth = $_SESSION['id'];
@@ -24,8 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validation : Vérifier si le champ "content" est vide
     if (empty($content)) {
         $_SESSION['error'] = 'Le champ commentaire est obligatoire.';
-        header('Location: user-article-show.php?id='.$article_id);
-        exit;
+       redirect('user-article-show.php?id='.$article_id);
     }
 
     // Vérification de l'existence de l'article
@@ -35,14 +33,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (! $articleExists) {
         $_SESSION['error'] = "L'article spécifié n'existe pas.";
-        header('Location: user-article-show.php?id='.$article_id);
-        exit;
+        redirect('user-article-show.php?id='.$article_id);
     }
 
     // Insertion du commentaire
     $query = $pdo->prepare('INSERT INTO comments (content, article_id, user_id, created_at) VALUES (:content, :article_id, :user_auth, NOW())');
     $query->execute(compact('content', 'article_id', 'user_auth'));
     // Rediriger vers la page de l'article après l'ajout du commentaire
-    header('Location: user-article-show.php?id='.$article_id);
-    exit();
+    redirect('user-article-show.php?id='.$article_id);
 }

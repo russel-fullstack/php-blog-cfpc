@@ -11,8 +11,7 @@ require_once 'app/helpers.php';
 // Vérification des autorisations admin
 
 if ($_SESSION['role'] !== Role::ADMIN->value) {
-    header('Location: index.php');
-    exit();
+    redirect('index.php');
 }
 
 // Récupérer les utilisateurs AVEC leur nombre de commentaires
@@ -37,7 +36,8 @@ foreach ($users as &$user) {
 }
 
 $pageTitle = 'Récupérer tous les utilisateurs';
-ob_start();
-include 'resources/views/admin/comments-list_html.php';
-$pageContent = ob_get_clean();
-include 'resources/views/layouts/admin-layout/admin-layout_html.php';
+
+render('admin/comments-list', [
+    'pageTitle' => $pageTitle,
+    'users' => $users
+], 'admin-layout');

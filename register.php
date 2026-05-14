@@ -3,6 +3,7 @@ declare(strict_types=1);
 session_start();
 require_once './database/database.php';
 require_once 'flash.php';
+require_once 'app/helpers.php'; 
 
 
 
@@ -43,19 +44,19 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
  $result = register($pdo, $pseudo, $email, $password, $confirm_password);
      if ($result === "success") {
         flash_set('success', 'Inscription réussie ! Vous pouvez maintenant vous connecter.');
-        header("Location: login.php");
-        exit();
+        redirect('register.php');
     }
 
     flash_set('error', $result);
-    header("Location: register.php");
-    exit();
+    redirect('index.php');
 }
 
 $pageTitle = 'Inscription'; // Titre de la page d'inscription
-ob_start(); // Créer un tampon de sortie pour stocker le contenu de la page d'inscription
-require_once 'resources/views/users/register_html.php'; // Inclure la vue de la page d'inscription
-$pageContent = ob_get_clean(); // Récupérer le contenu du tampon de sortie et le stocker dans la variable $pageContent
-require_once 'resources/views/layouts/blog-layout/blog-layout_html.php'; // Inclure le layout du blog qui affichera le header, le contenu et le footer
+// ob_start(); // Créer un tampon de sortie pour stocker le contenu de la page d'inscription
+// require_once 'resources/views/users/register_html.php'; // Inclure la vue de la page d'inscription
+// $pageContent = ob_get_clean(); // Récupérer le contenu du tampon de sortie et le stocker dans la variable $pageContent
+// require_once 'resources/views/layouts/blog-layout/blog-layout_html.php'; // Inclure le layout du blog qui affichera le header, le contenu et le footer
+
+render('users/register', compact('pageTitle'));
 
 ?>

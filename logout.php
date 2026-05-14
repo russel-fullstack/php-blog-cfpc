@@ -1,6 +1,7 @@
 <?php
-declare(strict_types=1);    
+declare(strict_types=1); 
+require_once 'app/helpers.php';  
+
 session_start();
 session_destroy();
-header("Location: index.php");
-exit();
+redirect('index.php');

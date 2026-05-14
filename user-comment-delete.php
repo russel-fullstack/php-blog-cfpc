@@ -5,10 +5,11 @@ declare(strict_types=1);
 session_start();
 require_once 'database/database.php';
 require_once 'app/enums/role.php';
+require_once 'app/helpers.php';
+
 
 if (! isset($_SESSION['auth'])) {
-    header('Location: login.php');
-    exit;
+    redirect('login.php');
 }
 
 $user_id = $_SESSION['id'];
@@ -37,5 +38,4 @@ if ($comment['user_id'] !== $user_id && !$isAdmin) {
 $query = $pdo->prepare('DELETE FROM comments WHERE id = :comment_id');
 $query->execute(['comment_id' => $comment_id]);
 
-header('Location: user-article-show.php?id='.$_GET['article_id']);
-exit;
+redirect('user-article-show.php?id='.$_GET['article_id']);
