@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 session_start();
 require_once 'database/database.php';
@@ -6,10 +7,8 @@ require_once 'flash.php';
 require_once 'app/enums/role.php';
 require_once 'app/helpers.php';
 
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== Role::ADMIN->value) 
-  {
-    header('Location: index.php');
-    exit();
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== Role::ADMIN->value) {
+  redirect('index.php');
 }
 $sql = "SELECT * FROM users";
 $query = $pdo->prepare($sql);
@@ -18,7 +17,8 @@ $users = $query->fetchAll();
 
 
 $pageTitle = "Liste d'utilisateurs";
-ob_start();
-require_once 'resources/views/admin/users/users-list_html.php';
-$pageContent = ob_get_clean();
-require_once 'resources/views/layouts/admin-layout/admin-layout_html.php';
+
+render('admin/users/users-list', [
+  'pageTitle' => $pageTitle,
+  'users' => $users
+], 'admin-layout');

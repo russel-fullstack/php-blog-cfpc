@@ -6,11 +6,12 @@ declare(strict_types=1);
 session_start();
 require_once 'database/database.php';
 require_once 'app/enums/role.php';
+require_once 'app/helpers.php';
+
 
 // Vérification de l'authentification
 if (! isset($_SESSION['auth'])) {
-    header('Location: login.php');
-    exit();
+    redirect('login.php');
 }
 
 $errors = [];
@@ -32,8 +33,7 @@ $req->execute([$userId]);
 $user = $req->fetch();
 
 if (! $user) {
-    header('Location: user.php');
-    exit();
+    redirect('user.php');
 }
 
 // -Traitement du formulaire de mise à jour
@@ -97,7 +97,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
 }
 
 $pageTitle = 'Éditer l\'Administrateur';
-ob_start();
-require_once 'resources/views/admin/admin-update-profil_html.php';
-$pageContent = ob_get_clean();
-require_once 'resources/views/layouts/admin-layout/admin-layout_html.php';
+
+render('admin/admin-update-profil', [
+    'pageTitle' => $pageTitle,
+    'user' => $user,
+    'errors' => $errors,
+    'success' => $success
+], 'admin-layout');

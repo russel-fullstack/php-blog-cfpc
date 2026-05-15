@@ -10,8 +10,7 @@ require_once 'app/helpers.php';
 
 
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== Role::ADMIN->value) {
-    header('Location: index.php');
-    exit();
+    redirect('index.php');
 }
 $article = [];
 $currentImage = null;
@@ -85,21 +84,25 @@ if (isset($_POST['update'])) {
 
             if ($query->rowCount() > 0) {
                 flash_set('success', 'Article mis à jour avec succès !');
-                header('Location: admin-list-article.php');
-                exit();
+                redirect('admin-list-article.php');
             } else {
                 flash_set('info', 'Aucun changement détecté.');
-                header('Location: admin-list-article.php');
-                exit();
+                redirect('admin-list-article.php');
             }
         }
     }
-    
+
     if ($error) {
         flash_set('error', $error);
     }
 }
-ob_start();
-require_once 'resources/views/admin/articles/admin-update-article_html.php';
-$pageContent = ob_get_clean();
-require_once 'resources/views/layouts/admin-layout/admin-layout_html.php';
+
+
+render('admin/articles/admin-update-article', [
+    'articleId' => $articleId,
+    'title' => $title,
+    'slug' => $slug,
+    'introduction' => $introduction,
+    'content' => $content,
+    'image' => $currentImage
+], 'admin-layout');

@@ -4,6 +4,7 @@ declare(strict_types=1);
 session_start();
 require_once 'database/database.php';
 require_once 'flash.php';
+require_once 'app/helpers.php';
 
 // /**
 //  * Authenticate a user
@@ -42,15 +43,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
         
         // Redirect based on role or to index
         if ($_SESSION['role'] === 'admin') {
-            header("Location: admin.php");
+            redirect("admin.php");
         } else {
-            header("Location: user.php");
+            redirect("user.php");
         }
         exit();
     } else {
         flash_set('error', $result);
-        header("Location: login.php");
-        exit();
+        redirect('login.php');
     }
 }
 
@@ -58,7 +58,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
 
 
 $pageTitle = 'Connexion';
-ob_start();
-require_once 'resources/views/users/login_html.php';
-$pageContent = ob_get_clean();
-require_once 'resources/views/layouts/blog-layout/blog-layout_html.php';
+render('users/login', compact('pageTitle'));
