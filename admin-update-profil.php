@@ -100,5 +100,7 @@ $pageTitle = 'Éditer l\'Administrateur';
 
 render('admin/admin-update-profil', [
     'pageTitle' => $pageTitle,
-    
+    'user' => $user,
+    'errors' => $errors,
+    'success' => $success
 ], 'admin-layout');

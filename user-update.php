@@ -94,10 +94,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
 
         $success['update'] = 'Profil mis à jour avec succès !';
     }
-    $success['update'] = 'Profil mis à jour avec succès !';
 }
 
 $pageTitle = 'Éditer l\'utilisateur';
 render('users/user-update', [
-    'pageTitle' => $pageTitle
+    'pageTitle' => $pageTitle,
+    'user' => $user,
+    'errors' => $errors,
+    'success' => $success
 ], 'user-layout');

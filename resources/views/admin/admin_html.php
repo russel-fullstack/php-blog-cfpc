@@ -83,7 +83,7 @@
             <div class="chat-box">
                 <p class="day"><span>Today</span></p>
                 <div class="msg">
-                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="">
+                    <img src="/doc/lorinda.jpeg" alt="">
                     <div class="chat">
                         <div class="profile">
                             <span class="username">Alan</span>
