@@ -14,20 +14,7 @@ $searchTerm = '';
 if (isset($_POST['search'])) {
     $searchTerm = clean_input((string) ($_POST['search'] ?? ''));
 }
-
-$query = 'SELECT * FROM articles';
-
-if (!empty($searchTerm)) {
-    $query .= ' WHERE title LIKE ? OR introduction LIKE ?';
-}
-$query .= ' ORDER BY created_at DESC';
-$resultats = $pdo->prepare($query);
-if (!empty($searchTerm)) {
-    $resultats->bindValue(1, '%' . $searchTerm . '%');
-    $resultats->bindValue(2, '%' . $searchTerm . '%');
-}
-$resultats->execute();
-$articles = $resultats->fetchAll();
+$articles = findAllArticles(null, null, $searchTerm);
 
 $flash = flash_get();
 

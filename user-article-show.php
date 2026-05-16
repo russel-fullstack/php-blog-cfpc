@@ -9,25 +9,15 @@ require_once 'app/enums/role.php';
 require_once 'app/helpers.php';
 
 $article_id = $_GET['id'];
-$sql = 'SELECT * FROM articles WHERE id = :article_id';
-$query = $pdo->prepare($sql);
-$query->execute(compact('article_id'));
-$article = $query->fetch();
+$article = findArticle((int)$article_id);
 
-$sql = 'SELECT comments.*, users.pseudo
-FROM comments
-JOIN users ON comments.user_id = users.id
-WHERE article_id= :article_id';
+$commentaires = findCommentsByArticle((int)$article_id);
 
-$query = $pdo->prepare($sql);
-$query->execute(compact('article_id'));
-$commentaires = $query->fetchAll();
+$usercount = countUsers();
+$commentsCount = countComments();
+$articlecount = countArticles();
 
-$usercount = $pdo->query('SELECT COUNT(*) AS count FROM users')->fetch(PDO::FETCH_ASSOC)['count'];
-$commentsCount = $pdo->query('SELECT COUNT(*) AS count FROM comments')->fetch(PDO::FETCH_ASSOC)['count'];
-$articlecount = $pdo->query('SELECT COUNT(*) AS count FROM articles')->fetch(PDO::FETCH_ASSOC)['count'];
-
-$latesArticles = $pdo->query('SELECT * FROM articles ORDER BY created_at DESC LIMIT 5')->fetch(PDO::FETCH_ASSOC);
+$latesArticles = findAllArticles(5, 0);
 
 $pageTitle = 'Affichage des articles';
 

@@ -26,7 +26,7 @@
     ?>
             <div class="auth-container">
                 <div class="profile">
-                    <img src="/publicAll/images/profil.png" alt="Photo de profil">
+                    <img src="/publicAll/images/profil.png" alt="yo">
                     <div class="profile-link">
                         <a href="/admin.php"><i class='bx bxs-user-circle icon'></i> Dashboard</a>
                         <a href="/logout.php"><i class='bx bxs-log-out-circle icon'></i> Déconnexion</a>
@@ -39,7 +39,7 @@
             ?>
 
                 <div class="profile">
-                    <img src="/publicAll/images/profil.png" alt="Photo de profil">
+                    <img src="/doc/lorinda.jpeg" alt="yo">
                     <div class="profile-link">
                         <a href="/user.php"><i class='bx bxs-user-circle icon'></i> Dashboard</a>
                         <a href="/logout.php"><i class='bx bxs-log-out-circle icon'></i> Déconnexion</a>

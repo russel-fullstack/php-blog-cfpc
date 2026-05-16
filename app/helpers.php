@@ -3,6 +3,9 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/enums/role.php';
+require_once __DIR__ . '/functions/article.php';
+require_once __DIR__ . '/functions/user.php';
+require_once __DIR__ . '/functions/comment.php';
 
 if (!function_exists('clean_input')) {
     function clean_input(string $data): string

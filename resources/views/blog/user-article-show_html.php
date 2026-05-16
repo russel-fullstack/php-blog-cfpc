@@ -383,8 +383,9 @@
 
         <h3><i class="fas fa-newspaper"></i> Derniers articles</h3>
         <ul>
-            <li><i class="fas fa-file"></i><a href="#user-article-show.php"><?= htmlspecialchars($latesArticles['title']) ?></a></li>
-
+            <?php foreach ($latesArticles as $article) { ?>
+                <li><i class="fas fa-file"></i><a href="user-article-show.php?id=<?= $article['id'] ?>"><?= htmlspecialchars($article['title']) ?></a></li>
+            <?php } ?>
         </ul>
     </div>
 
