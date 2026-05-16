@@ -27,12 +27,17 @@ function findAllArticles( ?int $limit= null, ?int $offset = null, string $search
        articles.*, 
        (SELECT COUNT(*) FROM comments WHERE comments.article_id = articles.id) AS comment_count
         FROM articles 
-        ORDER BY created_at DESC 
-        LIMIT :limit OFFSET :offset';
+        ';
     $pdo = getPdo();
 
     if (!empty($searchTerm)) {
         $sql .= ' WHERE title LIKE ? OR introduction LIKE ?';
+    }
+        $sql .= ' ORDER BY created_at DESC';
+        
+    if ($limit !== null && $offset !== null) {
+        $sql .= ' LIMIT :limit OFFSET :offset';
+
     }
     $resultats = $pdo->prepare($sql);
     if (!empty($searchTerm)) {
@@ -47,3 +52,14 @@ function findAllArticles( ?int $limit= null, ?int $offset = null, string $search
     $resultats->execute();
     return  $resultats->fetchAll();
 }
+
+function findArticle(int $id): array|false
+{
+    $pdo = getPdo();
+    $query = $pdo->prepare('SELECT * FROM articles WHERE id = :id');
+    $query->execute([':id' => $id]);
+    $article = $query->fetch();
+
+    return $article;
+}
+

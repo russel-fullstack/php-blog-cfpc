@@ -5,9 +5,7 @@ require_once './database/database.php';
 require_once 'flash.php';
 require_once 'app/helpers.php';
 
-$totalQuery = $pdo-> prepare('SELECT COUNT(*) FROM articles');
-$totalQuery->execute();
-$totalArticles = (int) $totalQuery->fetchColumn();
+$totalArticles = countArticles();
 $itemsPerPage = 12;
 $currentPage =(int)($_GET['page'] ?? 1);
 $totalPages = (int) ceil($totalArticles / $itemsPerPage);
