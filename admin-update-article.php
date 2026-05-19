@@ -8,10 +8,7 @@ require_once 'flash.php';
 require_once 'app/enums/role.php';
 require_once 'app/helpers.php';
 
-
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== Role::ADMIN->value) {
-    redirect('index.php');
-}
+checkAdmin();
 $article = [];
 $currentImage = null;
 

@@ -9,9 +9,7 @@ require_once 'app/enums/role.php';
 require_once 'app/helpers.php';
 
 
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== Role::ADMIN->value) {
-    redirect('index.php');
-}
+checkAdmin();
 
 if (isset($_POST['add-article'])) {
     $title = clean_input((string) ($_POST['title'] ?? ''));

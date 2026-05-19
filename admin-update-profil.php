@@ -10,9 +10,7 @@ require_once 'app/helpers.php';
 
 
 // Vérification de l'authentification
-if (! isset($_SESSION['auth'])) {
-    redirect('login.php');
-}
+checkAuth();
 
 $errors = [];
 $success = [];

@@ -52,6 +52,22 @@ if (!function_exists('removeAccents')) {
     }
 }
 
+function checkAuth(): void
+{
+    if (! isset($_SESSION['id'])) {
+    redirect('login.php');
+}
+
+}
+
+function checkAdmin(): void
+{
+    checkAuth();
+    if (! isset($_SESSION['role']) || $_SESSION['role'] !== Role::ADMIN->value) {
+        redirect('index.php');
+    }
+}
+
 function render(string $path, array $variables = [], string $layout = 'blog-layout')
 {
   // [
