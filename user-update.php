@@ -72,36 +72,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     // -Mise à jour des informations de l'utilisateur
     if (empty($errors)) {
         // Préparation de la requête de base
-        $query = 'UPDATE users SET pseudo = :username, email = :email';
-        $params = [
-            'username' => $username,
-            'email' => $email,
-            'userId' => $userId
-        ];
-
-        // Si un nouveau mot de passe est fourni
-        if (! empty($password)) {
-            $query .= ', password = :password';
-            $params['password'] = password_hash($password, PASSWORD_BCRYPT);
-        }
-
-        $query .= ' WHERE id = :userId';
-
-        $req = $pdo->prepare($query);
-        $req->execute($params);
+        $passwordhash = password_hash($password, PASSWORD_BCRYPT);
+       updateUser((int)$userId, $username, $email, $passwordhash);
 
         // Mettre à jour la session si l'utilisateur modifie son propre profil
         if ($userId == $_SESSION['id']) {
             $_SESSION['pseudo'] = $username;
             $_SESSION['email'] = $email;
+            $_SESSION['password'] = $passwordhash;
         }
-
-        $success['update'] = 'Profil mis à jour avec succès !';
-
-        // Rafraîchir les données utilisateur pour l'affichage
-        $user = findUserById((int)$userId);
     }
-    }
+    $success['update'] = 'Profil mis à jour avec succès !';
+
+    // Rafraîchir les données utilisateur pour l'affichage
+    $user = findUserById((int)$userId);
+}
 
 $pageTitle = 'Éditer l\'utilisateur';
 render('users/user-update', [

@@ -9,8 +9,7 @@ require_once 'app/helpers.php';
 
 
 checkAdmin();
-$query = $pdo->prepare('DELETE FROM articles WHERE id = :id');
-$query->execute([':id' => $_GET['id']]);
+deleteArticle((int)$_GET['id']);
 flash_set('success', 'Article supprimé avec succès !');
 
 redirect('admin-list-article.php');

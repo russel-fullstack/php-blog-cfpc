@@ -25,10 +25,7 @@ if ($_SESSION['role'] === Role::ADMIN->value && isset($_GET['id'])) {
 }
 
 // Récupération des informations de l'utilisateur
-$query = 'SELECT * FROM users WHERE id = ?';
-$req = $pdo->prepare($query);
-$req->execute([$userId]);
-$user = $req->fetch();
+$user = findUserById((int)$userId);
 
 if (! $user) {
     redirect('user.php');
@@ -46,11 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     if (empty($username) || ! preg_match('#^[a-zA-Z0-9_]+$#', $username)) {
         $errors['pseudo'] = 'Pseudo non valide';
     } else {
-        $query = 'SELECT * FROM users WHERE pseudo = ? AND id != ?';
-        $req = $pdo->prepare($query);
-        $req->execute([$username, $userId]);
+        $userExistUsername = findUserByUsernameExcept($username, (int)$userId);
 
-        if ($req->fetch()) {
+        if ($userExistUsername) {
             $errors['pseudo'] = 'Ce pseudo est déjà pris';
         }
     }
@@ -59,11 +54,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     if (empty($email) || ! filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors['email'] = 'Email non valide';
     } else {
-        $query = 'SELECT * FROM users WHERE email = ? AND id != ?';
-        $req = $pdo->prepare($query);
-        $req->execute([$email, $userId]);
+        $userExistEmail = findUserByEmailExcept($email, (int)$userId);
 
-        if ($req->fetch()) {
+        if ($userExistEmail) {
             $errors['email'] = 'Cet email est déjà utilisé';
         }
     }
@@ -75,20 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
 
     // -Mise à jour des informations de l'utilisateur
     if (empty($errors)) {
-        $query = 'UPDATE users SET pseudo = ?, email = ?';
-        $params = [$username, $email];
-
-        // Si un nouveau mot de passe est fourni
-        if (! empty($password)) {
-            $query .= ', password = ?';
-            $params[] = password_hash($password, PASSWORD_BCRYPT);
-        }
-
-        $query .= ' WHERE id = ?';
-        $params[] = $userId;
-
-        $req = $pdo->prepare($query);
-        $req->execute($params);
+        $passwordhash = password_hash($password, PASSWORD_BCRYPT);
+        updateUser((int)$userId, $username, $email, $passwordhash);
 
         // Mettre à jour la session si l'utilisateur modifie son propre profil
         if ($userId == $_SESSION['id']) {
@@ -99,10 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
         $success['update'] = 'Profil mis à jour avec succès !';
 
         // Rafraîchir les données utilisateur pour l'affichage
-        $query = 'SELECT * FROM users WHERE id = ?';
-        $req = $pdo->prepare($query);
-        $req->execute([$userId]);
-        $user = $req->fetch();
+        $user = findUserById((int)$userId);
     }
 }
 

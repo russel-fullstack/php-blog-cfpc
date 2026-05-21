@@ -40,3 +40,27 @@ function findUserByEmailExcept(string $email, int $userId): array|false
     ]);
     return $req->fetch();
 }
+
+function  insertUser(string $pseudo, string $email, string $password): array|false
+{
+    $pdo = getPdo();
+    $stmt = $pdo->prepare("INSERT INTO users(pseudo, email, password) VALUES(:pseudo, :email, :password)");
+    $stmt->execute([':pseudo' => $pseudo, ':email' => $email, ':password' => password_hash($password, PASSWORD_DEFAULT)]);
+    return $stmt->fetch();
+}
+
+function  updateUser(int $userId, string $username, string $email, string $password): array|false
+{
+    $pdo = getPdo();
+    $passwordhash = password_hash($password, PASSWORD_BCRYPT);
+    $query = 'UPDATE users SET pseudo = :username, email = :email , password = :password  WHERE id = :userId';
+    $params = [
+        'username' => $username,
+        'email' => $email,
+        'userId' => $userId,
+        'password' => $passwordhash
+    ];
+    $req = $pdo->prepare($query);
+    $req->execute($params);
+    return $req->fetch();
+}

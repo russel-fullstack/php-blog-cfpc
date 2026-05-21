@@ -14,9 +14,7 @@ function authenticateUser(PDO $pdo, string $email, string $password): string {
         return "Tous les champs doivent être complétés !";
     }
 
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
-    $stmt->execute([':email' => $email]);
-    $user = $stmt->fetch();
+    $user = authentificateUserByEmail($email);
 
     if (!$user || !password_verify($password, $user['password'])) {
         return "identifiants incorrects !";
@@ -45,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
         if ($_SESSION['role'] === 'admin') {
             redirect("admin.php");
         } else {
-            redirect("user.php");
+            redirect("user-dashboard.php");
         }
         exit();
     } else {

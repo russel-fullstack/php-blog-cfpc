@@ -14,10 +14,7 @@ $currentImage = null;
 
 if (isset($_GET['id'])) {
     $articleId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-    $sql = 'SELECT * FROM articles WHERE id = ?';
-    $query = $pdo->prepare($sql);
-    $query->execute([$articleId]);
-    $article = $query->fetch();
+    $article = findArticle((int)$articleId);
 
     $title = $article['title'] ?? '';
     $slug = $article['slug'] ?? '';
@@ -62,24 +59,14 @@ if (isset($_POST['update'])) {
     }
 
     if (!$error) {
-        $query = $pdo->prepare('SELECT COUNT(*) FROM articles WHERE slug = :slug AND id != :id');
-        $query->execute(['slug' => $slug, 'id' => $articleId]);
-        $count = $query->fetchColumn();
+        $count = countArticlesBySlugExcept((int)$articleId, $slug);
 
         if ($count > 0) {
             $error = 'Un article avec ce titre existe déjà.';
         } else {
-            $query = $pdo->prepare('UPDATE articles SET title = :title, slug = :slug, introduction = :introduction, content = :content, image = :image, updated_at = NOW() WHERE id = :articleId');
-            $query->execute([
-                'title' => $title,
-                'slug' => $slug,
-                'introduction' => $introduction,
-                'content' => $content,
-                'image' => $currentImage,
-                'articleId' => $articleId,
-            ]);
+            $query = updateArticle((int)$articleId, $title, $slug, $introduction, $content, $currentImage);
 
-            if ($query->rowCount() > 0) {
+            if ($query) {
                 flash_set('success', 'Article mis à jour avec succès !');
                 redirect('admin-list-article.php');
             } else {
