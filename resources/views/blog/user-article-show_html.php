@@ -309,9 +309,9 @@
         <h1 class="article-title"><?= htmlspecialchars($article['title'] ?? '')  ?></h1>
 
         <?php
-
-        if (isset($_SESSION['error'])) { ?>
-            <div class="error-message"><?= $_SESSION['error'] ?></div>
+        $flash = flash_set('error', "Le champ de commentaire est obligatoire.");
+        if ($flash) { ?>
+            <div class="error-message"><?= $flash['message'] ?></div>
         <?php } ?>
 
         <div class="article-body"><?= $article['content'] ?? '' ?></div>

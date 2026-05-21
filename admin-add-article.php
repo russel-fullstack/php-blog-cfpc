@@ -9,9 +9,7 @@ require_once 'app/enums/role.php';
 require_once 'app/helpers.php';
 
 
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== Role::ADMIN->value) {
-    redirect('index.php');
-}
+checkAdmin();
 
 if (isset($_POST['add-article'])) {
     $title = clean_input((string) ($_POST['title'] ?? ''));
@@ -45,21 +43,12 @@ if (isset($_POST['add-article'])) {
     if (empty($title) || empty($introduction) || empty($content)) {
         $error = 'Tous les champs sont requis.';
     } else {
-        $query = $pdo->prepare('SELECT * FROM articles WHERE slug = :slug');
-        $query->execute(['slug' => $slug]);
-        $count = $query->fetchColumn();
+        $count = findArticleBySlug($slug);
         if ($count > 0) {
             $error = 'Un article avec ce titre existe déjà.';
         } else {
-            $query = $pdo->prepare('INSERT INTO articles (title, slug, introduction, content, image, created_at) VALUES (:title, :slug, :introduction, :content, :image, NOW())');
-            $query->execute([
-                'title' => $title,
-                'slug' => $slug,
-                'introduction' => $introduction,
-                'content' => $content,
-                'image' => $imagePath
-            ]);
-            if ($query->rowCount() > 0) {
+            $query = insertArticle($title, $slug, $introduction, $content, $imagePath);
+            if ($query) {
                 flash_set('success', 'Article ajouté avec succès !');
                 redirect('admin-list-article.php');
             }

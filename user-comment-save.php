@@ -9,10 +9,7 @@ require_once 'app/enums/role.php';
 require_once 'app/helpers.php';
 
 // Vérifier si l'utilisateur est connecté
-if (! isset($_SESSION['id'])) {
-    redirect('login.php');
-}
-
+checkAuth();
 $user_auth = $_SESSION['id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -22,23 +19,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Validation : Vérifier si le champ "content" est vide
     if (empty($content)) {
-        $_SESSION['error'] = 'Le champ commentaire est obligatoire.';
-       redirect('user-article-show.php?id='.$article_id);
+        redirect('user-article-show.php?id='.$article_id);
+        flash_set('error', "Le champ de commentaire ne peut pas être vide.");
+        flash_get(); // Récupérer et supprimer le message flash de la session
     }
 
     // Vérification de l'existence de l'article
-    $query = $pdo->prepare('SELECT COUNT(*) FROM articles WHERE id = :article_id');
-    $query->execute(['article_id' => $article_id]);
-    $articleExists = $query->fetchColumn();
+   findArticle((int)$article_id);
 
-    if (! $articleExists) {
-        $_SESSION['error'] = "L'article spécifié n'existe pas.";
+    if (! findArticle((int)$article_id)) {
+        flash_set('error', "L'article spécifié n'existe pas.");
         redirect('user-article-show.php?id='.$article_id);
     }
 
     // Insertion du commentaire
-    $query = $pdo->prepare('INSERT INTO comments (content, article_id, user_id, created_at) VALUES (:content, :article_id, :user_auth, NOW())');
-    $query->execute(compact('content', 'article_id', 'user_auth'));
+   insertComment($content, (int)$user_auth, (int)$article_id);
     // Rediriger vers la page de l'article après l'ajout du commentaire
     redirect('user-article-show.php?id='.$article_id);
 }

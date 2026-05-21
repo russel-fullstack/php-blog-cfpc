@@ -10,9 +10,7 @@ require_once 'app/helpers.php';
 
 // Vérification des autorisations admin
 
-if ($_SESSION['role'] !== Role::ADMIN->value) {
-    redirect('index.php');
-}
+checkAdmin();
 
 // Récupérer les utilisateurs AVEC leur nombre de commentaires
 $usersQuery = $pdo->query('

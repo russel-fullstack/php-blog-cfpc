@@ -31,7 +31,7 @@
         <div class="card">
             <div class="head">
                 <div>
-                    <h2>465</h2>
+                    <h2>565</h2>
                     <p>Pageviews</p>
                 </div>
                 <i class='bx bx-trending-up icon'></i>

@@ -2,7 +2,7 @@
 <section id="sidebar">
 	<a href="#" class="brand"><i class='bx bxs-smile icon'></i> AdminSite</a>
 	<ul class="side-menu">
-		<li><a href="user.php" class="active"><i class='bx bxs-dashboard icon'></i> Dashboard</a></li>
+		<li><a href="user-dashboard.php" class="active"><i class='bx bxs-dashboard icon'></i> Dashboard</a></li>
 		<li class="divider" data-text="Gestion .
 		blog">Gestion Blog</li>
 		<li><a href="/"><i class='bx bxs-home icon'></i> Accueil Blog</a></li>

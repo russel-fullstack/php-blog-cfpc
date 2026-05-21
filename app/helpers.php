@@ -52,6 +52,35 @@ if (!function_exists('removeAccents')) {
     }
 }
 
+function checkAuth(): void
+{
+    if (! isset($_SESSION['id'])) {
+    redirect('login.php');
+}
+
+}
+
+function checkAdmin(): void
+{
+    checkAuth();
+    if (! isset($_SESSION['role']) || $_SESSION['role'] !== Role::ADMIN->value) {
+        redirect('index.php');
+    }
+}
+function authentificateUserByEmail(string $email) : array|false
+{
+    $pdo = getPdo();
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
+    $stmt->execute([':email' => $email]);
+    return  $stmt->fetch();
+}
+function authentificateUserByUsername(string $username) : array|false
+{
+    $pdo = getPdo();
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE pseudo = :pseudo");
+    $stmt->execute([':pseudo' => $username]);
+    return  $stmt->fetch();
+}
 function render(string $path, array $variables = [], string $layout = 'blog-layout')
 {
   // [

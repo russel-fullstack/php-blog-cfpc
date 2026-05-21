@@ -8,9 +8,7 @@ require_once 'app/enums/role.php';
 require_once 'app/helpers.php';
 
 
-if (! isset($_SESSION['auth'])) {
-    redirect('login.php');
-}
+checkAuth();
 
 $user_id = $_SESSION['id'];
 $comment_id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
@@ -20,9 +18,7 @@ if ($comment_id === null || $comment_id === false) {
 }
 
 // Vérifier si le commentaire existe et appartient à l'utilisateur connecté (ou admin)
-$query = $pdo->prepare('SELECT user_id FROM comments WHERE id = :comment_id');
-$query->execute(['comment_id' => $comment_id]);
-$comment = $query->fetch();
+$comment = findComment((int)$comment_id);
 
 
 if (! $comment) {
@@ -35,7 +31,6 @@ if ($comment['user_id'] !== $user_id && !$isAdmin) {
 }
 
 // -Supprimer le commentaire
-$query = $pdo->prepare('DELETE FROM comments WHERE id = :comment_id');
-$query->execute(['comment_id' => $comment_id]);
+deleteComment((int)$comment_id);
 
 redirect('user-article-show.php?id='.$_GET['article_id']);
