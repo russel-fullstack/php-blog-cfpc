@@ -211,14 +211,14 @@ if (! empty($errors)) { ?>
     </div>
 <?php } ?>
 <form action="" method="POST" class="form-group-update">
-    <h2>Profil de : <?= htmlspecialchars($_SESSION['pseudo'] ?? '') ?></h2>
+    <h2>Profil de : <?= htmlspecialchars($user['pseudo'] ?? '') ?></h2>
     <?php if (isset($errors['pseudo'])) { ?>
         <p style='color:#f86262;'><?= $errors['pseudo'] ?></p>
     <?php } ?>
     <div class="input-group-update">
-        <i class='bx /publicAll/images/img1.pngbxs-user icon'></i>
+        <i class='bx bxs-user icon'></i>
         <input type="text" name="pseudo" placeholder="Nom d'utilisateur"
-            value="<?= htmlspecialchars($_SESSION['pseudo'] ?? '') ?>">
+            value="<?= htmlspecialchars($user['pseudo'] ?? '') ?>">
     </div>
 
     <?php if (isset($errors['email'])) { ?>
@@ -227,7 +227,7 @@ if (! empty($errors)) { ?>
     <div class="input-group-update">
         <i class='bx bxs-envelope icon'></i>
         <input type="email" name="email" placeholder="Email"
-            value="<?= htmlspecialchars($_SESSION['email'] ?? '') ?>">
+            value="<?= htmlspecialchars($user['email'] ?? '') ?>">
     </div>
 
     <?php if (isset($errors['password'])) { ?>

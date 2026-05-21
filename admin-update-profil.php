@@ -90,7 +90,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
         $req = $pdo->prepare($query);
         $req->execute($params);
 
+        // Mettre à jour la session si l'utilisateur modifie son propre profil
+        if ($userId == $_SESSION['id']) {
+            $_SESSION['pseudo'] = $username;
+            $_SESSION['email'] = $email;
+        }
+
         $success['update'] = 'Profil mis à jour avec succès !';
+
+        // Rafraîchir les données utilisateur pour l'affichage
+        $query = 'SELECT * FROM users WHERE id = ?';
+        $req = $pdo->prepare($query);
+        $req->execute([$userId]);
+        $user = $req->fetch();
     }
 }
 

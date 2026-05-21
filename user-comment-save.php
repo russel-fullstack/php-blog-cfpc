@@ -19,15 +19,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Validation : Vérifier si le champ "content" est vide
     if (empty($content)) {
-        $_SESSION['error'] = 'Le champ commentaire est obligatoire.';
-       redirect('user-article-show.php?id='.$article_id);
+        redirect('user-article-show.php?id='.$article_id);
+        flash_set('error', "Le champ de commentaire ne peut pas être vide.");
+        flash_get(); // Récupérer et supprimer le message flash de la session
     }
 
     // Vérification de l'existence de l'article
    findArticle((int)$article_id);
 
     if (! findArticle((int)$article_id)) {
-        $_SESSION['error'] = "L'article spécifié n'existe pas.";
+        flash_set('error', "L'article spécifié n'existe pas.");
         redirect('user-article-show.php?id='.$article_id);
     }
 
