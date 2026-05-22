@@ -14,7 +14,7 @@ function authenticateUser(PDO $pdo, string $email, string $password): string {
         return "Tous les champs doivent être complétés !";
     }
 
-    $user = authentificateUserByEmail($email);
+    $user = findUserByEmail($email);
 
     if (!$user || !password_verify($password, $user['password'])) {
         return "identifiants incorrects !";

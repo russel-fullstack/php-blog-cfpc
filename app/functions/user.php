@@ -64,3 +64,29 @@ function  updateUser(int $userId, string $username, string $email, string $passw
     $req->execute($params);
     return $req->fetch();
 }
+function findUsersWithCommentCount()
+{
+    $pdo = getPdo();
+    $usersQuery = $pdo->query('
+    SELECT u.id, u.pseudo, COUNT(c.id) AS comment_count
+    FROM users u
+    LEFT JOIN comments c ON u.id = c.user_id
+    GROUP BY u.id
+');
+    return $usersQuery->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function findUserByEmail(string $email) : array|false
+{
+    $pdo = getPdo();
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email");
+    $stmt->execute([':email' => $email]);
+    return  $stmt->fetch();
+}
+function findUserByUsername(string $username) : array|false
+{
+    $pdo = getPdo();
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE pseudo = :pseudo");
+    $stmt->execute([':pseudo' => $username]);
+    return  $stmt->fetch();
+}

@@ -13,24 +13,13 @@ require_once 'app/helpers.php';
 checkAdmin();
 
 // Récupérer les utilisateurs AVEC leur nombre de commentaires
-$usersQuery = $pdo->query('
-    SELECT u.id, u.pseudo, COUNT(c.id) AS comment_count
-    FROM users u
-    LEFT JOIN comments c ON u.id = c.user_id
-    GROUP BY u.id
-');
-$users = $usersQuery->fetchAll(PDO::FETCH_ASSOC);
+
+$users = findUsersWithCommentCount();
 
 // Récupérer les commentaires + infos de l'article pour chaque utilisateur
 foreach ($users as &$user) {
-    $commentsQuery = $pdo->prepare('
-        SELECT c.id, c.content, c.created_at, a.id AS article_id, a.title AS article_title, a.slug AS article_slug
-        FROM comments c
-        LEFT JOIN articles a ON c.article_id = a.id
-        WHERE c.user_id = :user_id
-    ');
-    $commentsQuery->execute(['user_id' => $user['id']]);
-    $user['comments'] = $commentsQuery->fetchAll(PDO::FETCH_ASSOC);
+    
+    $user['comments'] =findCommentsByUser((int)$user['id']);
 }
 
 $pageTitle = 'Récupérer tous les utilisateurs';

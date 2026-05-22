@@ -45,3 +45,16 @@ function findComment(int $comment_id): array|false
     $comment = $query->fetch();
     return  $comment;
 }
+function findCommentsByUser(int $userId)
+{
+    $pdo = getPdo();
+    $commentsQuery = $pdo->prepare('
+        SELECT c.id, c.content, c.created_at, a.id AS article_id, a.title AS article_title, a.slug AS article_slug
+        FROM comments c
+        LEFT JOIN articles a ON c.article_id = a.id
+        WHERE c.user_id = :user_id
+    ');
+    $commentsQuery->execute(['user_id' => $userId]);
+    return $commentsQuery->fetchAll(PDO::FETCH_ASSOC);
+}
+
