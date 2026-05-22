@@ -309,7 +309,7 @@
         <h1 class="article-title"><?= htmlspecialchars($article['title'] ?? '')  ?></h1>
 
         <?php
-        $flash = flash_set('error', "Le champ de commentaire est obligatoire.");
+        $flash = flash_get();
         if ($flash) { ?>
             <div class="error-message"><?= $flash['message'] ?></div>
         <?php } ?>
