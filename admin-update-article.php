@@ -66,7 +66,7 @@ if (isset($_POST['update'])) {
         } else {
             $query = updateArticle((int)$articleId, $title, $slug, $introduction, $content, $currentImage);
 
-            if ($query) {
+            if (! $query) {
                 flash_set('success', 'Article mis à jour avec succès !');
                 redirect('admin-list-article.php');
             } else {
