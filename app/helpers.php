@@ -7,6 +7,9 @@ require_once __DIR__ . '/functions/article.php';
 require_once __DIR__ . '/functions/user.php';
 require_once __DIR__ . '/functions/comment.php';
 
+require_once __DIR__ . '/Models/Model.php';
+require_once __DIR__ . '/Models/Article.php';
+
 if (!function_exists('clean_input')) {
     function clean_input(string $data): string
     {

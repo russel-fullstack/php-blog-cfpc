@@ -11,15 +11,7 @@ require_once __DIR__ . '/../../database/database.php';
  */
 
 
-function countArticles(): int
-{
-    $pdo = getPdo();
-    $query = $pdo->prepare('SELECT COUNT(*) AS total FROM articles');
-    $query->execute();
-    $result = $query->fetch();
 
-    return (int)$result['total'];
-}
 function countArticlesBySlugExcept(int $articleId, string $slug): int
 {
     $pdo = getPdo();
