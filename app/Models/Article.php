@@ -25,6 +25,15 @@ class Article extends Model
     public static function count(): int
     {
         $instance = new self();
-        return (int)$instance->pdo->prepare('SELECT COUNT(*)FROM articles')->fetchColumn();
+        return (int)$instance->pdo->query('SELECT COUNT(*)FROM articles')->fetchColumn();
+    }
+    public static function find(int $id): array
+    {
+        $instance = new self();
+        $query = $instance->pdo->prepare('SELECT * FROM articles WHERE id = :id');
+        $query->execute([':id' => $id]);
+        $row = $query->fetch();
+       
+        return $row;
     }
 }

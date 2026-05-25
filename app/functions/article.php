@@ -52,16 +52,6 @@ function findAllArticles(?int $limit = null, ?int $offset = null, string $search
     return  $resultats->fetchAll();
 }
 
-function findArticle(int $id): array|false
-{
-    $pdo = getPdo();
-    $query = $pdo->prepare('SELECT * FROM articles WHERE id = :id');
-    $query->execute([':id' => $id]);
-    $article = $query->fetch();
-
-    return $article;
-}
-
 function findArticleBySlug(string $slug): array|false
 {
     $pdo = getPdo();
