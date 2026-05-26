@@ -14,7 +14,7 @@ $currentImage = null;
 
 if (isset($_GET['id'])) {
     $articleId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-    $article = findArticle((int)$articleId);
+    $article = Article::find((int)$articleId);
 
     $title = $article['title'] ?? '';
     $slug = $article['slug'] ?? '';
@@ -59,19 +59,18 @@ if (isset($_POST['update'])) {
     }
 
     if (!$error) {
-        $count = countArticlesBySlugExcept((int)$articleId, $slug);
+        $count = Article::countBySlugExcept((int)$articleId, $slug);
 
         if ($count > 0) {
             $error = 'Un article avec ce titre existe déjà.';
         } else {
-            $query = updateArticle((int)$articleId, $title, $slug, $introduction, $content, $currentImage);
+            $query = Article::update((int)$articleId, $title, $slug, $introduction, $content, $currentImage);
 
-            if (! $query) {
+            if ($query) {
                 flash_set('success', 'Article mis à jour avec succès !');
                 redirect('admin-list-article.php');
             } else {
-                flash_set('info', 'Aucun changement détecté.');
-                redirect('admin-list-article.php');
+                flash_set('error', 'Erreur lors de la mise à jour de l\'article.');
             }
         }
     }

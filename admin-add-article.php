@@ -43,11 +43,12 @@ if (isset($_POST['add-article'])) {
     if (empty($title) || empty($introduction) || empty($content)) {
         $error = 'Tous les champs sont requis.';
     } else {
-        $count = findArticleBySlug($slug);
+        $count = Article::findBySlug($slug);
         if ($count > 0) {
             $error = 'Un article avec ce titre existe déjà.';
         } else {
-            $query = insertArticle($title, $slug, $introduction, $content, $imagePath);
+            $query = Article::insert($title, $slug, $introduction, $content, $imagePath);
+            
             if ($query) {
                 flash_set('success', 'Article ajouté avec succès !');
                 redirect('admin-list-article.php');

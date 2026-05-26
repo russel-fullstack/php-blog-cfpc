@@ -10,10 +10,8 @@ require_once 'app/helpers.php';
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== Role::ADMIN->value) {
   redirect('index.php');
 }
-$sql = "SELECT * FROM users";
-$query = $pdo->prepare($sql);
-$query->execute();
-$users = $query->fetchAll();
+
+$users = User::findAll();
 
 
 $pageTitle = "Liste d'utilisateurs";

@@ -25,15 +25,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Vérification de l'existence de l'article
-   findArticle((int)$article_id);
+   Article::find((int)$article_id);
 
-    if (! findArticle((int)$article_id)) {
+    if (! Article::find((int)$article_id)) {
         flash_set('error', "L'article spécifié n'existe pas.");
         redirect('user-article-show.php?id='.$article_id);
     }
 
     // Insertion du commentaire
-   insertComment($content, (int)$user_auth, (int)$article_id);
+   Comment::insert($content, (int)$user_auth, (int)$article_id);
     // Rediriger vers la page de l'article après l'ajout du commentaire
     redirect('user-article-show.php?id='.$article_id);
 }

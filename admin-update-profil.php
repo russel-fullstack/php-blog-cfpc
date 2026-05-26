@@ -25,7 +25,7 @@ if ($_SESSION['role'] === Role::ADMIN->value && isset($_GET['id'])) {
 }
 
 // Récupération des informations de l'utilisateur
-$user = findUserById((int)$userId);
+$user = User::find((int)$userId);
 
 if (! $user) {
     redirect('user.php');
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     if (empty($username) || ! preg_match('#^[a-zA-Z0-9_]+$#', $username)) {
         $errors['pseudo'] = 'Pseudo non valide';
     } else {
-        $userExistUsername = findUserByUsernameExcept($username, (int)$userId);
+        $userExistUsername = User::findByUsernameExcept($username, (int)$userId);
 
         if ($userExistUsername) {
             $errors['pseudo'] = 'Ce pseudo est déjà pris';
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     if (empty($email) || ! filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors['email'] = 'Email non valide';
     } else {
-        $userExistEmail = findUserByEmailExcept($email, (int)$userId);
+        $userExistEmail = User::findByEmailExcept($email, (int)$userId);
 
         if ($userExistEmail) {
             $errors['email'] = 'Cet email est déjà utilisé';
@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     // -Mise à jour des informations de l'utilisateur
     if (empty($errors)) {
         $passwordhash = password_hash($password, PASSWORD_BCRYPT);
-        updateUser((int)$userId, $username, $email, $passwordhash);
+        User::update((int)$userId, $username, $email, $passwordhash);
 
         // Mettre à jour la session si l'utilisateur modifie son propre profil
         if ($userId == $_SESSION['id']) {
@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
         $success['update'] = 'Profil mis à jour avec succès !';
 
         // Rafraîchir les données utilisateur pour l'affichage
-        $user = findUserById((int)$userId);
+        $user = User::find((int)$userId);
     }
 }
 
