@@ -3,12 +3,10 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/enums/role.php';
-require_once __DIR__ . '/functions/article.php';
-require_once __DIR__ . '/functions/user.php';
-require_once __DIR__ . '/functions/comment.php';
-
 require_once __DIR__ . '/Models/Model.php';
 require_once __DIR__ . '/Models/Article.php';
+require_once __DIR__ . '/Models/Comment.php';
+require_once __DIR__ . '/Models/User.php';
 
 if (!function_exists('clean_input')) {
     function clean_input(string $data): string
@@ -33,21 +31,60 @@ if (!function_exists('removeAccents')) {
     function removeAccents(string $string): string
     {
         $accents = [
-            'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'a', 'å' => 'a',
+            'à' => 'a',
+            'á' => 'a',
+            'â' => 'a',
+            'ã' => 'a',
+            'ä' => 'a',
+            'å' => 'a',
             'ç' => 'c',
-            'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e',
-            'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i',
+            'è' => 'e',
+            'é' => 'e',
+            'ê' => 'e',
+            'ë' => 'e',
+            'ì' => 'i',
+            'í' => 'i',
+            'î' => 'i',
+            'ï' => 'i',
             'ñ' => 'n',
-            'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ö' => 'o', 'ø' => 'o',
-            'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ü' => 'u',
-            'ý' => 'y', 'ÿ' => 'y',
-            'À' => 'A', 'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Ä' => 'A', 'Å' => 'A',
+            'ò' => 'o',
+            'ó' => 'o',
+            'ô' => 'o',
+            'õ' => 'o',
+            'ö' => 'o',
+            'ø' => 'o',
+            'ù' => 'u',
+            'ú' => 'u',
+            'û' => 'u',
+            'ü' => 'u',
+            'ý' => 'y',
+            'ÿ' => 'y',
+            'À' => 'A',
+            'Á' => 'A',
+            'Â' => 'A',
+            'Ã' => 'A',
+            'Ä' => 'A',
+            'Å' => 'A',
             'Ç' => 'C',
-            'È' => 'E', 'É' => 'E', 'Ê' => 'E', 'Ë' => 'E',
-            'Ì' => 'I', 'Í' => 'I', 'Î' => 'I', 'Ï' => 'I',
+            'È' => 'E',
+            'É' => 'E',
+            'Ê' => 'E',
+            'Ë' => 'E',
+            'Ì' => 'I',
+            'Í' => 'I',
+            'Î' => 'I',
+            'Ï' => 'I',
             'Ñ' => 'N',
-            'Ò' => 'O', 'Ó' => 'O', 'Ô' => 'O', 'Õ' => 'O', 'Ö' => 'O', 'Ø' => 'O',
-            'Ù' => 'U', 'Ú' => 'U', 'Û' => 'U', 'Ü' => 'U',
+            'Ò' => 'O',
+            'Ó' => 'O',
+            'Ô' => 'O',
+            'Õ' => 'O',
+            'Ö' => 'O',
+            'Ø' => 'O',
+            'Ù' => 'U',
+            'Ú' => 'U',
+            'Û' => 'U',
+            'Ü' => 'U',
             'Ý' => 'Y',
         ];
 
@@ -58,9 +95,8 @@ if (!function_exists('removeAccents')) {
 function checkAuth(): void
 {
     if (! isset($_SESSION['id'])) {
-    redirect('login.php');
-}
-
+        redirect('login.php');
+    }
 }
 
 function checkAdmin(): void
@@ -73,24 +109,25 @@ function checkAdmin(): void
 
 function render(string $path, array $variables = [], string $layout = 'blog-layout')
 {
-  // [
-  //   'var1' => 1,
-  //   'var2' => 2,
-  //   'var3' => 3,
-  // ]
+    // [
+    //   'var1' => 1,
+    //   'var2' => 2,
+    //   'var3' => 3,
+    // ]
 
-  // $var1 = 1,
-  // $var2 =2,
-  // $var3 = 3,
-extract($variables);
-ob_start();
-require_once "resources/views/" .$path."_html.php";
-$pageContent = ob_get_clean();
-require_once "resources/views/layouts/{$layout}/{$layout}_html.php";
+    // $var1 = 1,
+    // $var2 =2,
+    // $var3 = 3,
+    extract($variables);
+    ob_start();
+    require_once "resources/views/" . $path . "_html.php";
+    $pageContent = ob_get_clean();
+    require_once "resources/views/layouts/{$layout}/{$layout}_html.php";
 }
 
 
-function redirect(string $path){
-  header("Location: $path");
-  exit(); // Terminer le script
+function redirect(string $path)
+{
+    header("Location: $path");
+    exit(); // Terminer le script
 }

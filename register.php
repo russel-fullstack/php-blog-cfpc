@@ -17,13 +17,13 @@ function register( string $pseudo, string $email, string $password, string $conf
 
     if (strlen($pseudo) > 255) return "Votre nom d'utilisateur ne doit pas dépasser 255 caractères.";
 
-    $stmt = findUserByUsername($pseudo);
+    $stmt = User::findByUsername($pseudo);
 
     if ($stmt) return "Ce nom d'utilisateur est déjà utilisé.";
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) return "Adresse email invalide.";
 
-    $stmt = findUserByEmail($email);
+    $stmt = User::findByEmail($email);
 
     if ($stmt) return "Adresse email déjà utilisée !";
 
@@ -32,7 +32,7 @@ function register( string $pseudo, string $email, string $password, string $conf
     }
     if ($password !== $confirm_password) return "Les mots de passe ne correspondent pas !";
 
-    insertUser($pseudo, $email, $password);
+    User::insert($pseudo, $email, $password);
 
     return "success";
 }

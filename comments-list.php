@@ -14,12 +14,12 @@ checkAdmin();
 
 // Récupérer les utilisateurs AVEC leur nombre de commentaires
 
-$users = findUsersWithCommentCount();
+$users = User::findWithCommentCount();
 
 // Récupérer les commentaires + infos de l'article pour chaque utilisateur
 foreach ($users as &$user) {
     
-    $user['comments'] =findCommentsByUser((int)$user['id']);
+    $user['comments'] =Comment::findByUser((int)$user['id']);
 }
 
 $pageTitle = 'Récupérer tous les utilisateurs';

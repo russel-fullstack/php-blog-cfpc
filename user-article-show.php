@@ -11,13 +11,13 @@ require_once 'app/helpers.php';
 $article_id = $_GET['id'];
 $article = Article::find((int)$article_id);
 
-$commentaires = findCommentsByArticle((int)$article_id);
+$commentaires = Comment::findByArticle((int)$article_id);
 
-$usercount = countUsers();
-$commentsCount = countComments();
+$usercount = User::count();
+$commentsCount = Comment::count();
 $articlecount = Article::count();
 
-$latesArticles = findAllArticles(5, 0);
+$latesArticles = Article::findAll(5, 0);
 
 $pageTitle = 'Affichage des articles';
 
