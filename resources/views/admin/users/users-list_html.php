@@ -6,7 +6,7 @@
             </div>
             <div style="margin-left: auto; margin-top: 0.5rem;">
                 <span class="btn btn-outline" style="cursor: default; border-color: var(--vue-green); color: var(--vue-green);">
-                    Total: <?= count($users) ?> Utilisateurs
+                    Total: <?= User::count() ?> Utilisateurs
                 </span>
             </div>
         </div>
