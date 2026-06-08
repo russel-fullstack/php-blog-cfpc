@@ -11,7 +11,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== Role::ADMIN->value) {
   redirect('index.php');
 }
 
-$users = User::findAll();
+$users = User::All();
 
 
 $pageTitle = "Liste d'utilisateurs";

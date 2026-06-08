@@ -60,7 +60,7 @@
 </style>
 
 <h1>Nos articles</h1>
-<p>Il y a <?= count($articles); ?> articles</p>
+<p>Il y a <?= Article::count(); ?> articles</p>
 
 <!-- Affichage des messages flash -->
 <?php if ($flash): ?>

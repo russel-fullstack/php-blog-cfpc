@@ -6,6 +6,8 @@ require_once __DIR__ . '/Model.php';
 
 class Article extends Model
 {
+
+    protected string $table = 'articles';
     public function __construct(
         public readonly int $id = 0,
         public string $title = '',
@@ -21,30 +23,14 @@ class Article extends Model
     }
 
 
-
-    public static function count(): int
-    {
-        $instance = new self();
-        return (int)$instance->pdo->query('SELECT COUNT(*)FROM articles')->fetchColumn();
-    }
-    public static function find(int $id): array
-    {
-        $instance = new self();
-        $query = $instance->pdo->prepare('SELECT * FROM articles WHERE id = :id');
-        $query->execute([':id' => $id]);
-        $row = $query->fetch();
-
-        return $row;
-    }
-
-    public static function findAll(?int $limit = null, ?int $offset = null, string $searchTerm = ''): array
+    public static function All(?int $limit = null, ?int $offset = null, string $searchTerm = ''): array
     {
         $sql = 'SELECT 
        articles.*, 
        (SELECT COUNT(*) FROM comments WHERE comments.article_id = articles.id) AS comment_count
         FROM articles 
         ';
-        $instance = new self();
+        $instance = new static();
 
         if (!empty($searchTerm)) {
             $sql .= ' WHERE title LIKE ? OR introduction LIKE ?';
@@ -69,7 +55,7 @@ class Article extends Model
     }
     public static function countBySlugExcept(int $articleId, string $slug): int
     {
-        $instance = new self();
+        $instance = new static();
         $query = $instance->pdo->prepare('SELECT COUNT(*) FROM articles WHERE slug = :slug AND id != :id');
         $query->execute(['slug' => $slug, 'id' => $articleId]);
         $count = $query->fetchColumn();
@@ -80,23 +66,17 @@ class Article extends Model
 
     public static function findBySlug(string $slug): array|false
     {
-        $instance = new self();
+        $instance = new static();
         $query = $instance->pdo->prepare('SELECT * FROM articles WHERE slug = :slug');
         $query->execute(['slug' => $slug]);
         $count = $query->fetchColumn();
 
         return $count;
     }
-    public static function delete(int $id): array|false
-    {
-        $instance = new self();
-        $query = $instance->pdo->prepare('DELETE FROM articles WHERE id = :id');
-        $query->execute([':id' => $id]);
-        return $query->fetch();
-    }
+   
     public static function insert(string $title, string $slug, string $introduction, string $content, ?string $imagePath): array|false
     {
-        $instance = new self();
+        $instance = new static();
         $query = $instance->pdo->prepare('INSERT INTO articles (title, slug, introduction, content, image, created_at) VALUES (:title, :slug, :introduction, :content, :image, NOW())');
         $query->execute([
             'title' => $title,
@@ -109,7 +89,7 @@ class Article extends Model
     }
     public static function update(int $articleId, string $title, string $slug, string $introduction, string $content, string $currentImage): array|false
     {
-        $instance = new self();
+        $instance = new static();
         $query = $instance->pdo->prepare('UPDATE articles SET title = :title, slug = :slug, introduction = :introduction, content = :content, image = :image, updated_at = NOW() WHERE id = :articleId');
         $query->execute([
             'title' => $title,

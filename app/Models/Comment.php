@@ -6,6 +6,7 @@ require_once __DIR__ . '/Model.php';
 
 class Comment extends Model
 {
+    protected string $table = 'comments';
     public function __construct(
         public readonly int $id = 0,
         public string $content = '',
@@ -20,24 +21,9 @@ class Comment extends Model
     }
 
 
-
-    public static function count(): int
-    {
-        $instance = new self();
-        return (int)$instance->pdo->query('SELECT COUNT(*)FROM comments')->fetchColumn();
-    }
-    public static function find(int $id): array
-    {
-        $instance = new self();
-        $query = $instance->pdo->prepare('SELECT * FROM comments WHERE id = :id');
-        $query->execute([':id' => $id]);
-        $row = $query->fetch();
-
-        return $row;
-    }
     public static function findByArticle(int $article_id): array
     {
-        $instance = new self();
+        $instance = new static();
         $sql = 'SELECT comments.*, users.pseudo
             FROM comments
             JOIN users 
@@ -50,22 +36,17 @@ class Comment extends Model
     }
      public static function insert(string $content, int $user_auth, int $article_id): bool
     {
-        $pdo = getPdo();
-        $query = $pdo->prepare('INSERT INTO comments (content, article_id, user_id, created_at) VALUES (:content, :article_id, :user_auth, NOW())');
+        $instance = new static();
+        $query = $instance->pdo->prepare('INSERT INTO comments (content, article_id, user_id, created_at) VALUES (:content, :article_id, :user_auth, NOW())');
         return $query->execute(compact('content', 'article_id', 'user_auth'));
     }
 
-     public static function delete(int $comment_id): bool
-    {
-        $pdo = getPdo();
-        $query = $pdo->prepare('DELETE FROM comments WHERE id = :comment_id');
-        return $query->execute(['comment_id' => $comment_id]);
-    }
+    
 
      public static function findByUser(int $userId)
     {
-        $pdo = getPdo();
-        $commentsQuery = $pdo->prepare('
+        $instance = new static();
+        $commentsQuery = $instance->pdo->prepare('
         SELECT c.id, c.content, c.created_at, a.id AS article_id, a.title AS article_title, a.slug AS article_slug
         FROM comments c
         LEFT JOIN articles a ON c.article_id = a.id
