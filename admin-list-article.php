@@ -13,7 +13,7 @@ $searchTerm = '';
 if (isset($_POST['search'])) {
     $searchTerm = clean_input((string) ($_POST['search'] ?? ''));
 }
-$articles = Article::findAll(null, null, $searchTerm);
+$articles = Article::All(null, null, $searchTerm);
 
 $flash = flash_get();
 

@@ -17,7 +17,7 @@ $usercount = User::count();
 $commentsCount = Comment::count();
 $articlecount = Article::count();
 
-$latesArticles = Article::findAll(5, 0);
+$latesArticles = Article::All(5, 0);
 
 $pageTitle = 'Affichage des articles';
 

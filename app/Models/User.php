@@ -24,7 +24,7 @@ class User extends Model
     }
 
 
-    public static function findAll(): array
+    public static function All(): array
     {
         $sql = "SELECT * FROM users";
         $instance = new static();

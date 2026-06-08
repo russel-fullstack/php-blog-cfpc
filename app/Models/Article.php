@@ -23,7 +23,7 @@ class Article extends Model
     }
 
 
-    public static function findAll(?int $limit = null, ?int $offset = null, string $searchTerm = ''): array
+    public static function All(?int $limit = null, ?int $offset = null, string $searchTerm = ''): array
     {
         $sql = 'SELECT 
        articles.*, 

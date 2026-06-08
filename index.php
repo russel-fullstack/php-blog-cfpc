@@ -11,7 +11,7 @@ $currentPage =(int)($_GET['page'] ?? 1);
 $totalPages = (int) ceil($totalArticles / $itemsPerPage);
 $offset = ($currentPage - 1) * $itemsPerPage;   
 
-$articles = Article::findAll($itemsPerPage, $offset);
+$articles = Article::All($itemsPerPage, $offset);
 
 
 $pageTitle = 'Notre blog d\'accueil';
